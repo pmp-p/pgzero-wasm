@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 playing = None
 
 music.set_volume(0.5)

@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 WIDTH = HEIGHT = 400
 
 alien = Actor('alien', center=(200, 200), anchor=('center', 30))

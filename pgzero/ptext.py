@@ -343,15 +343,20 @@ def getsurf(text, fontname=None, fontsize=None, sysfontname=None, bold=None, ita
             lsurfs = [font.render(text, antialias, color,
                                   background).convert_alpha() for text in texts]
         if gcolor is not None:
-            import numpy
-            for lsurf in lsurfs:
-                m = numpy.clip(numpy.arange(
-                    lsurf.get_height()) * 2.0 / font.get_ascent() - 1.0, 0, 1)
-                array = pygame.surfarray.pixels3d(lsurf)
-                for j in (0, 1, 2):
-                    array[:, :, j] = (
-                        (1.0 - m) * array[:, :, j] + m * gcolor[j]).astype(array.dtype)
-                del array
+            try:
+                import numpy
+            except:
+                numpy = False
+                print(__file__,"numpy not available")
+            if numpy:
+                for lsurf in lsurfs:
+                    m = numpy.clip(numpy.arange(
+                        lsurf.get_height()) * 2.0 / font.get_ascent() - 1.0, 0, 1)
+                    array = pygame.surfarray.pixels3d(lsurf)
+                    for j in (0, 1, 2):
+                        array[:, :, j] = (
+                            (1.0 - m) * array[:, :, j] + m * gcolor[j]).astype(array.dtype)
+                    del array
 
         if len(lsurfs) == 1 and gcolor is None:
             surf = lsurfs[0]

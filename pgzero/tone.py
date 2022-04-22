@@ -12,9 +12,11 @@ on another CPU core, if present.
 """
 from functools import lru_cache
 from collections import namedtuple
-from threading import Thread, Lock
+
 from queue import Queue
 from enum import Enum
+import sys
+
 
 import pygame
 import pyfxr
@@ -40,25 +42,39 @@ class Waveform(Enum):
 ToneParams = namedtuple('ToneParams', 'hz duration waveform volume')
 
 
+if sys.platform == 'emscripten':
+    from aio.gthread import Thread, Lock
+
+    def _play_thread():
+        while True:
+            if note_queue.empty():
+                yield
+            else:
+                params = note_queue.get()
+                with cache_lock:
+                    note = _create(params)
+                note.play()
+else:
+    from threading import Thread, Lock
+    def _play_thread():
+        """Play any notes requested by the game thread.
+
+        Multithreading is useful because numpy releases the GIL while performing
+        many C operations.
+
+        """
+        while True:
+            params = note_queue.get()
+            with cache_lock:
+                note = _create(params)
+            note.play()
+
+
 # lru_cache isn't threadsafe until Python 3.7, so protect it ourselves
 # https://bugs.python.org/issue28969
 cache_lock = Lock()
 note_queue = Queue()
 player_thread = None
-
-
-def _play_thread():
-    """Play any notes requested by the game thread.
-
-    Multithreading is useful because numpy releases the GIL while performing
-    many C operations.
-
-    """
-    while True:
-        params = note_queue.get()
-        with cache_lock:
-            note = _create(params)
-        note.play()
 
 
 def create(*args, **kwargs):
@@ -126,6 +142,7 @@ def play(*args, **kwargs):
     global player_thread
     params = _convert_args(*args, **kwargs)
     if not player_thread or not player_thread.is_alive():
+        print(' - starting tone thread -')
         pygame.mixer.init()
         player_thread = Thread(target=_play_thread, daemon=True)
         player_thread.start()

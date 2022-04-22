@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 # Pong is a two-dimensional sports game that simulates table tennis.
 # The player controls an in-game paddle by moving it vertically across
 # the left side of the screen, and can compete against either a

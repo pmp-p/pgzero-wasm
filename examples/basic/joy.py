@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 def show_keystate():
     print(keyboard._pressed)
 

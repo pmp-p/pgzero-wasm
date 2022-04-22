@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 from math import sin, cos
 
 # Constants that control the wobble effect

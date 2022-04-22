@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 """An example of using animate() and clock scheduling to move actors around.
 
 There are two actors in this example, each with a different movement strategy.

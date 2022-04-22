@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 import itertools
 
 TONES = [

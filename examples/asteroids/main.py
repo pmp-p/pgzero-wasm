@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 from enum import Enum
 import operator
 

@@ -45,6 +45,7 @@ class PGZeroGame:
 
     Dispatch events, call update functions, draw. Repeat.
     """
+    FPS = 60
 
     def __init__(
         self,
@@ -317,6 +318,55 @@ class PGZeroGame:
 
                     print(f"fps: {fps:0.1f}  time per frame: {ftime_ms:0.1f}ms")
                 pygame.display.flip()
+
+    if sys.platform == 'emscripten':
+
+        async def async_run(self):
+            import asyncio
+            """Invoke the main loop, and then clean up."""
+            try:
+                self.reinit_screen()
+
+                update = self.get_update_func()
+                draw = self.get_draw_func()
+                self.load_handlers()
+                self.inject_global_handlers()
+
+                logic_timer = Timer('logic', print=self.fps)
+                draw_timer = Timer('draw', print=self.fps)
+                i = 0
+                tgt = 1 / self.FPS  # target frame time
+
+                t = perf_counter()
+
+                while not asyncio.exit:
+                    i += 1
+                    nextt = perf_counter()
+                    dt = nextt - t
+
+                    with logic_timer:
+                        updated = self.handle_events(dt, update)
+
+                    if updated:
+                        with draw_timer:
+                            draw()
+
+                        if self.fps and i and i % 60 == 0:
+                            ftime_ms = draw_timer.get_mean() + logic_timer.get_mean()
+                            fps = 1000 / ftime_ms
+
+                            print(f"fps: {fps:0.1f}  time per frame: {ftime_ms:0.1f}ms")
+                        pygame.display.flip()
+                    t = nextt
+                    await asyncio.sleep(0)
+            finally:
+                pygame.display.quit()
+                pygame.mixer.quit()
+
+        def run(self):
+            import asyncio
+            asyncio.run( self.async_run() )
+
 
 
 def frames(fps=60):

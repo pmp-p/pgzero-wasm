@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 # to run this game type the command pgzrun mines.py into the terminal
 # whilst in this directory
 

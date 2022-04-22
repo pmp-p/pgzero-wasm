@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 import random
 from enum import Enum
 from collections import deque

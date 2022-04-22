@@ -1,4 +1,7 @@
-import numpy as np
+try:
+    import numpy as np
+except:
+    np = False
 import pygame
 import pygame.draw
 
@@ -129,7 +132,7 @@ class Screen:
 
     def fill(self, color, gcolor=None):
         """Fill the screen with a colour."""
-        if gcolor:
+        if gcolor and np:
             start = make_color(color)
             stop = make_color(gcolor)
             pixs = pygame.surfarray.pixels3d(self.surface)

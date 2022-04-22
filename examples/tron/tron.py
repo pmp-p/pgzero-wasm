@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 from pygame import Surface
 from pygame import transform
 from collections import deque

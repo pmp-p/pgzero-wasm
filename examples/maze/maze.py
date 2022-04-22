@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 """Game to solve a randomly generated maze.
 
 Ideas for improvement:

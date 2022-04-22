@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 WIDTH = 500
 HEIGHT = 100
 TITLE = "Fading Green!"

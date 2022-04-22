@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 # Example game using text rendering
 
 WIDTH = sx = 854

@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 import random
 from collections import deque
 from math import sin, floor

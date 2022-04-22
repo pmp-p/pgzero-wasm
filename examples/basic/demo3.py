@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 alien = Actor('alien')
 
 TITLE = "Alien walk"

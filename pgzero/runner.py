@@ -111,10 +111,17 @@ def load_and_run(path, *, fps: bool = False):
     try:
         run_mod(mod, fps=fps)
     finally:
+        def at_exit():
+            pygame.display.quit()
+            clock.clock.clear()
+            del sys.modules[name]
+
         # Clean some of the state we created, useful in testing
-        pygame.display.quit()
-        clock.clock.clear()
-        del sys.modules[name]
+        if sys.platform == 'emscripten':
+            import atexit
+            atexit.register(at_exit)
+        else:
+            at_exit()
 
 
 @contextmanager

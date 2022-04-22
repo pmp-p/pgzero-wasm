@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 #
 # TODO: Add sound effects
 #       Ignore clicks after displaying second card until

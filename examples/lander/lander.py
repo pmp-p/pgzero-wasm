@@ -1,3 +1,4 @@
+#!/bin/env pgzrun
 """Pi Lander.
 
  * A basic Lunar Lander style game in Pygame Zero
