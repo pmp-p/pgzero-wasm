@@ -71,7 +71,15 @@
       <progress value="0" max="100" id="progress" hidden=1></progress>
     </div>
 
-    <!-- <div class="thick_border" align=center > -->
+
+    <div id="terminal" tabIndex=1><p></div>
+    <div class="button-container">
+      VT340
+      <button id="repl" disabled>Start REPL</button>
+      <button id="clearvt" disabled>Clear</button>
+      &nbsp;
+    </div>
+
         <div class="emscripten_border" align=center >
             <canvas class="emscripten" id="canvas"
 width="800px" height="600px"
@@ -88,16 +96,6 @@ style="width: 576px; height: 432px;"
 
         </div>
 
-        <div class="emscripten_border">
-            <div id="terminal" tabIndex=1><p></div>
-            <div class="button-container">
-              VT340
-              <button id="repl" disabled>Start REPL</button>
-              <button id="clearvt" disabled>Clear</button>
-              &nbsp;
-            </div>
-        </div>
-
         <div id=info class=topright style="width: 640px;height=100px;">
         </div>
 
@@ -108,7 +106,7 @@ height="88%" width="640px"
             mozallowfullscreen="true"
             allow="autoplay; fullscreen *; geolocation; microphone; camera; midi; monetization; xr-spatial-tracking; gamepad; gyroscope; accelerometer; xr; cross-origin-isolated"
             frameborder="0"
-            src="index.html"
+            src="about://"
             msallowfullscreen="true"
             scrolling="yes"
             allowfullscreen="true"
@@ -184,6 +182,7 @@ height="88%" width="640px"
     "cd site-packages/SimpleGUICS2Pygame/example",
     "cd /data/data/org.sdl2.pysdl2/assets/examples-wasm",
     "cd /data/data/org.python/assets;test.py",
+    "ls /usr/lib",
     "test()"]
 
         _rcp("current.py", "/data/data/org.python/assets/test.py")
@@ -306,8 +305,8 @@ ${pycode}
             // xterm js placeholder
             wasmterm = { print : console.log, sixel : function(){}}
         } else {
-            // it uses  document.getElementById('terminal') to get its host
-            wasmterm = new WasmTerminal( document.getElementById('terminal') )
+            // it uses  document.getElementById() to get its host
+            wasmterm = new WasmTerminal( 'terminal', 132, 50 )
 
             window.xterm = wasmterm.xterm
 
