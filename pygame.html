@@ -312,7 +312,7 @@ ${pycode}
             wasmterm = { print : console.log, sixel : function(){}}
         } else {
             // it uses  document.getElementById('terminal') to get its host
-            wasmterm = new WasmTerminal( "terminal", 80, 35 )
+            wasmterm = new WasmTerminal( "terminal", 100, 35 )
 
             window.xterm = wasmterm.xterm
 
